@@ -31,7 +31,7 @@ public class Bot extends TelegramLongPollingBot {
                 sendMsg(update.getMessage().getChatId().toString(), "Бот отправляется в слуцк");
                 break;
             case 4:
-                sendMsg(update.getMessage().getChatId().toString(), "Дьяк, го делать бота");
+                sendMsg(update.getMessage().getChatId().toString(), "Дьяк, го делать ботаfsdfsdfsdfdsfdsfsdfsd");
                 break;
         }
     }
