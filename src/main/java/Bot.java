@@ -25,16 +25,16 @@ public class Bot extends TelegramLongPollingBot {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             switch (message.getText()) {
-                case "\\help":
-                    sendMsg(message, "help");
+                case "/help":
+                    sendMsg(message, "Бот написаныый на Java, цель которого пока неясна.В разработке учавствует 3 программиста и 1 наблудатель");
                     break;
-                case "\\about":
-                    sendMsg(message, "about");
+                case "/about":
+                    sendMsg(message, "/about");
                     break;
-                case "\\go to home":
-                    sendMsg(message, "go to home");
+                case "/trigger":
+                    sendMsg(message, "@Дьяк как думаешь налоги в Америке высокие?");
                     break;
-                case "\\say anything":
+                case "/say anything":
                     sendMsg(message, "некст");
                     break;
                 default:
@@ -61,14 +61,14 @@ public class Bot extends TelegramLongPollingBot {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("\\help");
-        keyboardFirstRow.add("\\about");
+        keyboardFirstRow.add("/help");
+        keyboardFirstRow.add("/about");
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("\\go to home");
-        keyboardSecondRow.add("\\say anything");
+        keyboardSecondRow.add("/trigger");
+        keyboardSecondRow.add("/say anything");
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
