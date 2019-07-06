@@ -1,40 +1,15 @@
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bot extends TelegramLongPollingBot {
-    public void onUpdateReceived(Update update) {
-        //выполняется, когда бот получает сообщение
-        //update содержит отправленное пользоватетелем сообщение
-        String message = update.getMessage().getText();
-        //sendMsg(update.getMessage().getChatId().toString(), message);
-
-
-        int menu = 0;
-        if (message.equals("/about"))
-            menu = 1;
-        else if (message.equals("/help"))
-            menu = 2;
-        else if (message.equals("/diack"))
-            menu = 3;
-        else if (message.equals("/bot"))
-            menu = 4;
-        switch (menu) {
-            case 1:
-                sendMsg(update.getMessage().getChatId().toString(), "Тестовый бот от Strell, написаныый на Java. Автор готов выслушать предложения для реализации");
-                break;
-            case 2:
-                sendMsg(update.getMessage().getChatId().toString(), "Доступные команды бота:\n/about\n/help\n/diack");
-                break;
-            case 3:
-                sendMsg(update.getMessage().getChatId().toString(), "Бот отправляется в слуцк");
-                break;
-            case 4:
-                sendMsg(update.getMessage().getChatId().toString(), "Дьяк, го делать ботаfsdfsdfsdfdsfdsfsdfsd");
-                break;
-        }
-    }
 
     public String getBotUsername() {
         //получение имени бота
@@ -46,43 +21,69 @@ public class Bot extends TelegramLongPollingBot {
         return "657391723:AAFV9KoWG3VGLL0Y2ZfOKmM1LynzQfIkJXM";
     }
 
-    private synchronized void sendMsg(String chatId, String s) {
+    public void onUpdateReceived(Update update) {
+        Message message = update.getMessage();
+        if (message != null && message.hasText()) {
+            switch (message.getText()) {
+                case "\\help":
+                    sendMsg(message, "help");
+                    break;
+                case "\\about":
+                    sendMsg(message, "about");
+                    break;
+                case "\\go to home":
+                    sendMsg(message, "go to home");
+                    break;
+                case "\\say anything":
+                    sendMsg(message, "некст");
+                    break;
+                default:
+                    sendMsg(message, "default block");
+                    break;
+            }
+        }
+    }
+
+    public void sendMsg (Message message, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(s);
+
+        // Создаем клавиуатуру
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        // Создаем список строк клавиатуры
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        // Первая строчка клавиатуры
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        // Добавляем кнопки в первую строчку клавиатуры
+        keyboardFirstRow.add("\\help");
+        keyboardFirstRow.add("\\about");
+
+        // Вторая строчка клавиатуры
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        // Добавляем кнопки во вторую строчку клавиатуры
+        keyboardSecondRow.add("\\go to home");
+        keyboardSecondRow.add("\\say anything");
+
+        // Добавляем все строчки клавиатуры в список
+        keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardSecondRow);
+        // и устанваливаем этот список нашей клавиатуре
+        replyKeyboardMarkup.setKeyboard(keyboard);
+
+        sendMessage.setChatId(message.getChatId().toString());
+        sendMessage.setReplyToMessageId(message.getMessageId());
+        sendMessage.setText(text);
         try {
-            execute(sendMessage);
+            sendMessage(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
-
-//    private synchronized void setButtons(SendMessage sendMessage) {
-//        // Создаем клавиуатуру
-//        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-//        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-//        replyKeyboardMarkup.setSelective(true);
-//        replyKeyboardMarkup.setResizeKeyboard(true);
-//        replyKeyboardMarkup.setOneTimeKeyboard(true);
-//
-//        // Создаем список строк клавиатуры
-//        List<KeyboardRow> keyboard = new ArrayList<KeyboardRow>();
-//
-//        // Первая строчка клавиатуры
-//        KeyboardRow keyboardFirstRow = new KeyboardRow();
-//        // Добавляем кнопки в первую строчку клавиатуры
-//        keyboardFirstRow.add(new KeyboardButton("Привет"));
-//
-//        // Вторая строчка клавиатуры
-//        KeyboardRow keyboardSecondRow = new KeyboardRow();
-//        // Добавляем кнопки во вторую строчку клавиатуры
-//        keyboardSecondRow.add(new KeyboardButton("Помощь"));
-//
-//        // Добавляем все строчки клавиатуры в список
-//        keyboard.add(keyboardFirstRow);
-//        keyboard.add(keyboardSecondRow);
-//        // и устанваливаем этот список нашей клавиатуре
-//        replyKeyboardMarkup.setKeyboard(keyboard);
-//    }
 }
+
