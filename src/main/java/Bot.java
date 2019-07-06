@@ -1,38 +1,29 @@
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
-        //выполняется, когда бот получает сообщение
-        //update содержит отправленное пользоватетелем сообщение
-        String message = update.getMessage().getText();
-        //sendMsg(update.getMessage().getChatId().toString(), message);
 
 
-        int menu = 0;
-        if (message.equals("/about"))
-            menu = 1;
-        else if (message.equals("/help"))
-            menu = 2;
-        else if (message.equals("/diack"))
-            menu = 3;
-        else if (message.equals("/bot"))
-            menu = 4;
-        switch (menu) {
-            case 1:
-                sendMsg(update.getMessage().getChatId().toString(), "Тестовый бот от Strell, написаныый на Java. Автор готов выслушать предложения для реализации");
-                break;
-            case 2:
-                sendMsg(update.getMessage().getChatId().toString(), "Доступные команды бота:\n/about\n/help\n/diack");
-                break;
-            case 3:
-                sendMsg(update.getMessage().getChatId().toString(), "Бот отправляется в слуцк");
-                break;
-            case 4:
-                sendMsg(update.getMessage().getChatId().toString(), "Дьяк, го делать ботаfsdfsdfsdfdsfdsfsdfsd");
-                break;
+        Message message = update.getMessage();
+        if(message != null && message.hasText()){
+            switch (message.getText()) {
+                case "/about":
+                    sendMsg(update.getMessage().getChatId().toString(), "Тестовый бот от Strell, написаныый на Java. Автор готов выслушать предложения для реализации");
+                    break;
+                case "/help":
+                    sendMsg(update.getMessage().getChatId().toString(), "Доступные команды бота:\n/about\n/help\n/diack");
+                    break;
+                case "/diack":
+                    sendMsg(update.getMessage().getChatId().toString(), "Бот отправляется в слуцк");
+                    break;
+                case "/bot":
+                    sendMsg(update.getMessage().getChatId().toString(), "Дьяк, го делать ботаfsdfsdfsdfdsfdsfsdfsd");
+                    break;
+            }
         }
     }
 
