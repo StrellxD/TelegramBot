@@ -21,6 +21,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/**/misc.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -69,3 +70,10 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+# My files
+*.class
+
+.gitignore
+src/main/resources/
+src/test/
+target/generated-sources/
