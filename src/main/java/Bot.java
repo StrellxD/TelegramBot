@@ -38,13 +38,12 @@ public class Bot extends TelegramLongPollingBot {
                     sendMsg(message, "некст");
                     break;
                 default:
-                    sendMsg(message, "default block");
                     break;
             }
         }
     }
 
-    public void sendMsg (Message message, String text) {
+    public void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
 
@@ -86,4 +85,3 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 }
-
