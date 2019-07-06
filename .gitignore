@@ -233,3 +233,6 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # End of https://www.gitignore.io/api/java,maven,intellij,java-web,code-java,intellij+all,intellij+iml
+
+src/main/resources/
+src/test/
